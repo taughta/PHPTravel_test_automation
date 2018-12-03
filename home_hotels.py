@@ -1,12 +1,13 @@
 from current_browser import current_browser
 from random import randint
 from datetime import datetime, timedelta
-import time
+
 
 # Defining buttons locator values. Attribute type is in comment, keep it up to date!
 buttons = {
     'hotel/city': 'select2-choice',  # CLASS
-    'hotel/city_clicked': 'select2-input',  # CLASS
+    #'hotel/city_clicked': 'select2-input select2-focused',  # CLASS
+    'hotel/city_clicked': "//input[@class='select2-input select2-focused']",  # XPATH
     'checkin': 'checkin',  # NAME
     'checkout': 'checkout',  # NAME
     'travellersInput': 'travellersInput',  # ID
@@ -23,7 +24,7 @@ months = ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 
 # Enters a random destination
 def enter_random_hotel_or_city():
     current_browser.find_element_by_class_name(buttons['hotel/city']).click()
-    current_browser.find_element_by_class_name(buttons['hotel/city_clicked']).send_keys(
+    current_browser.find_element_by_xpath(buttons['hotel/city_clicked']).send_keys(
         locations_hotels[randint(0, len(locations_hotels)-1)]
     )
     search_result = current_browser.find_element_by_xpath("//span[@class='select2-match']")
@@ -32,7 +33,7 @@ def enter_random_hotel_or_city():
 
 def enter_custom_hotel_or_city(custom_destination):
     current_browser.find_element_by_class_name(buttons['hotel/city']).click()
-    current_browser.find_element_by_class_name(buttons['hotel/city_clicked']).send_keys(custom_destination)
+    current_browser.find_element_by_xpath(buttons['hotel/city_clicked']).send_keys(custom_destination)
     search_result = current_browser.find_element_by_xpath("//span[@class='select2-match']")
     search_result.click()
 
