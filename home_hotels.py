@@ -1,6 +1,7 @@
 from current_browser import current_browser
 from random import randint
 from datetime import datetime, timedelta
+import time
 
 
 # Defining buttons locator values. Attribute type is in comment, keep it up to date!
@@ -65,10 +66,10 @@ def checkin_datepicker_select_random_future_date():
     )
     for i in range(randint(1, 6)):
         next_button.click()
-    random_month = current_browser.find_element_by_xpath(
+    firstMonth = current_browser.find_element_by_xpath(
         "//div[@class='datepicker dropdown-menu']/div[@class='datepicker-months']//span[@class='month']"
     )
-    random_month.click()
+    firstMonth.click()
 
 
 def checkin_manual_input_today():
@@ -87,7 +88,31 @@ def checkin_manual_input_random_future():
     current_browser.find_element_by_name(buttons['checkin']).send_keys(random_future_date)
 
 
-# Checks the entered
+def checkout_select_random_future():
+    try:
+        date_range_switcher = current_browser.find_element_by_xpath(
+            "//div[@class='datepicker dropdown-menu'][2]/div[@class='datepicker-days']//th[@class='switch']"
+        )
+        date_range_switcher.click()
+    except:
+        current_browser.find_element_by_name(buttons['checkout']).click()
+        date_range_switcher = current_browser.find_element_by_xpath(
+            "//div[@class='datepicker dropdown-menu'][2]/div[@class='datepicker-days']//th[@class='switch']"
+        )
+        date_range_switcher.click()
+
+    next_button = current_browser.find_element_by_xpath(
+        "//div[@class='datepicker dropdown-menu'][2]/div[@class='datepicker-months']//th[@class='next']"
+    )
+    for k in range(randint(1, 5)):
+        next_button.click()
+
+    firstMonth = current_browser.find_element_by_xpath(
+        "//div[@class='datepicker dropdown-menu'][2]/div[@class='datepicker-months']//span[@class='month']"
+    )
+    firstMonth.click()
+
+
 def checkout_manual_input_random_future():
     entered_checkin_date = datetime.strptime(current_browser.find_element_by_name(
         buttons['checkin']).get_attribute('value'), '%m/%d/%Y'
